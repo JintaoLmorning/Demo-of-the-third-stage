@@ -1,0 +1,26 @@
+//需求：NSArray数据存到XXX/Documents/test.txt
+    //1.NSArray
+    NSArray *array = @[@"Jonny", @19, @[@"Objective-C", @"Swift", @"Ruby"]];
+    
+    //2.Documents路径
+    NSString *documentPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
+    
+    //3.文件绝对路径
+    //3.1 自动添加“/”的字符串拼接方法
+    NSString *filePath = [documentPath stringByAppendingPathComponent:@"test.txt"];
+    
+    //4.写入文件中
+    /*参数一：制定写入文件的绝对路径
+     参数二：是否是原子(YES:保证要么写成功，要么什么都没有；NO:没有临时文件，不能保证绝对写成功)
+     注意点：不用创建文件；plist格式; 如果该文件没有，自动创建，如果有，直接写入(后写入的内容会覆盖原来的内容)
+     */
+    if (![array writeToFile:filePath atomically:YES]) {
+        NSLog(@"文件写入失败");
+    }
+    
+    
+    /**
+     *  从指定的路径下读取文件的数据
+     *  原则：写入什么什么类型，需要用该类型接收
+     */
+    NSArray *arrayFromFile = [NSArray arrayWithContentsOfFile:filePath];
